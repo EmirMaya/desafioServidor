@@ -7,7 +7,7 @@ class ProductManager {
         this.lastId = 0; //id que inicio en 0 
         this.init();
     }
-
+//BASICAMENTE SON IDENTICOS CON CARTMANAGER
     async init() {
         try {
             const data = await fs.promises.readFile(this.path, 'utf8');
@@ -40,6 +40,7 @@ class ProductManager {
         try {
             this.products = this.products.filter(product => product.id !== id);
             await this.save();
+          
         } catch (error) {
             console.log(error);
         }
@@ -63,8 +64,4 @@ class ProductManager {
 
 export default ProductManager
 
-// const manager = new ProductManager('products.json');
-// // console.log(manager.getProductById(1));
-// // manager.deleteProduct(1);
-// manager.addProduct({ title: 'Product 1', description: 'Product 1 description', price: 9.99, thumbnail: 'image.jpg', code: 'abc123', stock: 10 });
-// manager.updateProduct(1, {title: 'Product 2'});
+

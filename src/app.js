@@ -1,39 +1,25 @@
 
 import express from 'express'
-import ProductManager from './ProductManager.js';
-// import productManager from './ProductManager.js'
-// const ProductManager = require('./ProductManager.js');
-const manager = new ProductManager('./src/products.json');
-const app = express()
-const PORT = 8080
+import __dirname from './utils.js';
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
 
-app.use(express.json())
+const app = express();
+const PORT = 8080;
 
+app.use(express.json());
+// app.use(express.urlencoded({extended:true})) //para que el reqparamsid lo tome directamente
+app.use(express.static(__dirname + '/public'));
+console.log(__dirname); //esto sin el utils con lo que copie en internet no me funcionaba
 
-app.get('/products/:id', (req, res) => {
-    let id = Number(req.params.id)
-    const product = manager.getProductById(id)
+// http://localhost:8080/api/productos
+app.use('/api/productos', productsRouter)
 
-    if (product) {
-        res.status(200).json(product);
-    } else {
-        res.status(404).send('Product not found');
-    }
-});
-
-app.get('/products', async (req, res) => {
-    try {
-        const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-        const products = await manager.getProducts(limit)
-        res.status(200).json({ products });
-    } catch (err) {
-        res.status(500).send('Error getting products');
-    }
-});
-
-
+// http://localhost:8080/api/carts
+app.use('/api/carts', cartsRouter)
 
 app.listen(PORT, err => {
     if (err) console.log(err)
     console.log(`Listening on PORT ${PORT}`);
 })
+
