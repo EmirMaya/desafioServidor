@@ -1,0 +1,40 @@
+{{!-- body --}}
+<div>
+    {{!-- <h1>¡Hola, {{ user.name }}!, ¡Que gusto verte!</h1>
+    <h2>Socket Io</h2>
+    <hr>
+    <form action="">
+        <input type="text" name="mensaje">
+        <input type="submit">
+    </form>
+    // const mensaje = 'mensaje'
+    <hr>
+    {{#if isAdmin}}
+    {{#each fakeApi}}
+    <div>
+        <p>Nombre del producto: {{this.name}}</p>
+        <p>Precio: {{this.price}}</p>
+        {{!-- <p>{{}}</p> --}}
+        {{!--
+    </div>
+    {{/each}}
+    {{else}}
+    <h2>Ud No tiene permisos necesarios para ver los productos</h2>
+    {{/if}} --}}
+
+    <h1>List of Products</h1>
+    <ul>
+        {{#each products}}
+        <li>
+            <h2>{{title}}</h2>
+            <p>{{description}}</p>
+            <p>Code: {{code}}</p>
+            <p>Price: {{price}}</p>
+            <p>Stock: {{stock}}</p>
+            <p>Category: {{category}}</p>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/js/index.js"></script>

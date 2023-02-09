@@ -1,0 +1,66 @@
+{{!-- body --}}
+
+<h1>Real-Time Product List</h1>
+<div id="product-list">
+    {{#each products}}
+    <div class="product-item">
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+        <p>Code: {{code}}</p>
+        <p>Price: {{price}}</p>
+        <p>Stock: {{stock}}</p>
+        <p>Category: {{category}}</p>
+    </div>
+    {{/each}}
+</div>
+<div>
+    <form id="productForm" action="/realtimeproducts" method="post">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title">
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" class="form-control" id="description">
+        </div>
+        <div class="form-group">
+            <label for="code">Code:</label>
+            <input type="text" class="form-control" id="code">
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="text" class="form-control" id="price">
+        </div>
+        <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="text" class="form-control" id="stock">
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <input type="text" class="form-control" id="category">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <form id="deleteForm">
+        <div class="form-group">
+            <label for="deleteId">Id:</label>
+            <input type="text" class="form-control" id="deleteId">
+        </div>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>//aca seguramente va otra cosa, ya que solo me guarda el id del producto en products.json
+    const socket = io();
+    import ProductManager from '../managers/ProductManager.js'
+    const manager = new ProductManager('./src/db/products.json');
+    socket.on('product created', (product) => {
+        manager.addProduct(product);
+    });
+</script>
+
+{{!-- <script src="/virtual/js/index.js"></script> --}}
