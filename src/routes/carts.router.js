@@ -7,16 +7,7 @@ const router = Router()
 
 
 router.post('/', async (req, res) => {
-    // try {
-    //     const { products } = req.body;
-    //     const newCart = { products };
-    //     await cartManager.addCart(newCart);
-    //     res.status(201).send({ message: 'Cart created successfully' });
-    // } catch (error) {
-    //     console.log(error);
-    //     res.status(500).send({ message: 'Error creating cart' });
-    // }
-///CUAL ES MEJOR DE LOS 2 METODOS PARA ESTE POST?
+
     try {
         const cart = req.body; //recibo lo escribo en el body postman o tc
         await cartManager.addCart(cart);// lo agrego al file
@@ -27,10 +18,10 @@ router.post('/', async (req, res) => {
 });
 
 //
-router.get('/:cid', (req, res) => { //DEBE LLEVAR ASYNC??
+router.get('/:cid', async (req, res) => { 
     try {
         const cid = parseInt(req.params.cid); //id del cart
-        const cart =  cartManager.getCartById(cid); //encuentro el cart en el file
+        const cart = await  cartManager.getCartById(cid); //encuentro el cart en el file
         if (!cart) { //si no esta, avisamos
             res.status(404).send({ error: 'Cart not found' });
             return;

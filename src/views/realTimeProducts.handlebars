@@ -1,6 +1,6 @@
 {{!-- body --}}
 
-<h1>Real-Time Product List</h1>
+{{!-- <h1>Real-Time Product List</h1>
 <div id="product-list">
     {{#each products}}
     <div class="product-item">
@@ -54,13 +54,35 @@
 
 
 <script src="/socket.io/socket.io.js"></script>
-<script>//aca seguramente va otra cosa, ya que solo me guarda el id del producto en products.json
-    const socket = io();
-    import ProductManager from '../managers/ProductManager.js'
-    const manager = new ProductManager('./src/db/products.json');
-    socket.on('product created', (product) => {
-        manager.addProduct(product);
-    });
-</script>
 
-{{!-- <script src="/virtual/js/index.js"></script> --}}
+
+<script src="../public/js/index.js"></script> --}}
+
+
+
+<h1>Real-Time Products</h1>
+<ul id="products">
+    {{#each products}}
+    <li>
+        {{this.title}} - {{this.price}}
+        <form class="delete-form" method="POST" action="/realtimeproducts">
+            <input type="hidden" name="id" value="{{this.id}}">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {{/each}}
+</ul>
+
+<h2>Create a new product</h2>
+<form class="create-form" method="POST" action="/realtimeproducts">
+    <label for="title">Title:</label>
+    <input type="text" name="title" required><br>
+
+    <label for="price">Price:</label>
+    <input type="number" name="price" required><br>
+
+    <button type="submit">Create</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/js/index.js"></script>

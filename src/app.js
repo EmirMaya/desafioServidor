@@ -36,21 +36,7 @@ app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 
 
-//ESTE APP.POST COMO PUEDO HACERLO EN VIEWS USANDO SOCKET??
-//YA QUE ASÍ APP.JS QUEDA MUY DESPROLIJO 
-app.post('/realtimeproducts', async (req, res) => {
-    const product = req.body;
-    try { 
-        await manager.addProduct(product); //agrego el prod
-        res.status(201).json({ message: 'Product created' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'Could not create product' });
-    }
-    app.io.emit('product created', product);
 
-    res.send('Product created');
-});
 
 // app.listen(PORT, err => {
 //     if (err) console.log(err)
@@ -96,3 +82,19 @@ io.on('connection', socket => {
         console.log('disconnect', socket.id);
     });
 });
+
+//ESTE APP.POST COMO PUEDO HACERLO EN VIEWS USANDO SOCKET??
+//YA QUE ASÍ APP.JS QUEDA MUY DESPROLIJO 
+// app.post('/realtimeproducts', async (req, res) => {
+//     const product = req.body;
+//     try { 
+//         await manager.addProduct(product); //agrego el prod
+//         res.status(201).json({ message: 'Product created' });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send({ message: 'Could not create product' });
+//     }
+//     app.io.emit('product created', product);
+
+//     res.send('Product created');
+// });

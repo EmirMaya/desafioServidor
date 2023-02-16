@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET api/productos/:id
-router.get('/:id', async (req, res) => { //DEBE LLEVAR ASYNC?
+router.get('/:id', async (req, res) => { 
     const id = Number(req.params.id)
     const product = await manager.getProductById(id)
     if (product) {
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => { //DEBE LLEVAR ASYNC?
 
 router.post('/', async (req, res) => {
     try {
-        //ES BUENA PRACTICA QUE ESTEN TODOS LOS PARAMS? O SE PUEDE PONER UN OBJ ACÁ?
+        
         const { title, description, code, price, stock, category, thumbnails = [] } = req.body; //lo que le paso por postman/tc
         const status = true;
         const product = { title, description, code, price, status, stock, category, thumbnails };

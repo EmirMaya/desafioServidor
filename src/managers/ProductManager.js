@@ -12,13 +12,13 @@ class ProductManager {
         try {
             const data = await fs.promises.readFile(this.path, 'utf8');
             this.products = JSON.parse(data);
-            this.lastId = this.products.length ? this.products[this.products.length - 1].id : 0; //esta linea no me quedó claro
+            this.lastId = this.products.length ? this.products[this.products.length - 1].id : 0; 
         } catch (err) {
             console.error(err);
         }
     }
 
-    getProducts = () => {
+    getProducts =  () => {
         return this.products;
     }
 
