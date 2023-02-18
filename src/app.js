@@ -69,32 +69,22 @@ io.on('connection', socket => {
 
     socket.on('mensaje', data => {
         console.log(data)
-        // persisti 
+
     });
 
-    // socket.emit('mensajeServer', 'Listo estoy escuchandote');
+    socket.on("createProduct", async (data) => {
+        const { title, description, price, stock, code } = data;
+        const product = await manager.addProduct({ title, description, price, stock, code });
+        io.emit("productData", await manager.getProducts());
+    });
 
-    // socket.broadcast.emit('evetno_para_todos_menos_el_actual', 'Esto lo van a recibir todos lo conectados.');
+    socket.on("deleteProduct", async (id) => {
+        await manager.deleteProduct(Number(id));
+        io.emit("productData", await manager.getProducts());
+    });
 
-    // io.emit('evento_para_todos', 'algun tipo de mensjae');
 
     socket.on('disconnect', () => {
         console.log('disconnect', socket.id);
     });
 });
-
-//ESTE APP.POST COMO PUEDO HACERLO EN VIEWS USANDO SOCKET??
-//YA QUE ASÍ APP.JS QUEDA MUY DESPROLIJO 
-// app.post('/realtimeproducts', async (req, res) => {
-//     const product = req.body;
-//     try { 
-//         await manager.addProduct(product); //agrego el prod
-//         res.status(201).json({ message: 'Product created' });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send({ message: 'Could not create product' });
-//     }
-//     app.io.emit('product created', product);
-
-//     res.send('Product created');
-// });

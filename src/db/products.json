@@ -11,12 +11,12 @@
     "id": 2
   },
   {
-    "title": "producto",
+    "title": "producto prueba delete",
     "description": "descripcion del producto",
-    "code": "abcsdf4",
-    "price": 55,
+    "code": "abcs4",
+    "price": 58,
     "status": true,
-    "stock": 66,
+    "stock": 37,
     "category": "categoria productos",
     "thumbnails": "",
     "id": 3
@@ -31,5 +31,13 @@
     "category": "categoria productos",
     "thumbnails": "",
     "id": 4
+  },
+  {
+    "title": "PRUEBA AGREGAR",
+    "description": "DESCRIPCION",
+    "price": "250000",
+    "stock": "312",
+    "code": "ASD22",
+    "id": 5
   }
 ]

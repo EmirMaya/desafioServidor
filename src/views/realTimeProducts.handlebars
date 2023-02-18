@@ -1,88 +1,83 @@
-{{!-- body --}}
-
-{{!-- <h1>Real-Time Product List</h1>
-<div id="product-list">
-    {{#each products}}
-    <div class="product-item">
-        <h2>{{title}}</h2>
-        <p>{{description}}</p>
-        <p>Code: {{code}}</p>
-        <p>Price: {{price}}</p>
-        <p>Stock: {{stock}}</p>
-        <p>Category: {{category}}</p>
-    </div>
-    {{/each}}
-</div>
-<div>
-    <form id="productForm" action="/realtimeproducts" method="post">
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title">
-        </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <input type="text" class="form-control" id="description">
-        </div>
-        <div class="form-group">
-            <label for="code">Code:</label>
-            <input type="text" class="form-control" id="code">
-        </div>
-        <div class="form-group">
-            <label for="price">Price:</label>
-            <input type="text" class="form-control" id="price">
-        </div>
-        <div class="form-group">
-            <label for="stock">Stock:</label>
-            <input type="text" class="form-control" id="stock">
-        </div>
-        <div class="form-group">
-            <label for="category">Category:</label>
-            <input type="text" class="form-control" id="category">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-    <form id="deleteForm">
-        <div class="form-group">
-            <label for="deleteId">Id:</label>
-            <input type="text" class="form-control" id="deleteId">
-        </div>
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-
-</div>
-
-
-<script src="/socket.io/socket.io.js"></script>
-
-
-<script src="../public/js/index.js"></script> --}}
-
-
-
-<h1>Real-Time Products</h1>
-<ul id="products">
+<h1>Real Time Products</h1>
+<ul id="product-list">
     {{#each products}}
     <li>
-        {{this.title}} - {{this.price}}
-        <form class="delete-form" method="POST" action="/realtimeproducts">
-            <input type="hidden" name="id" value="{{this.id}}">
-            <button type="submit">Delete</button>
-        </form>
+        <h3>{{title}}</h3>
+        <p>{{description}}</p>
+        <p>Price: ${{price}}</p>
+        <p>Stock: {{stock}}</p>
+        <p>Code: {{code}}</p>
     </li>
     {{/each}}
 </ul>
+<br />
 
-<h2>Create a new product</h2>
-<form class="create-form" method="POST" action="/realtimeproducts">
-    <label for="title">Title:</label>
-    <input type="text" name="title" required><br>
+<form id="product-form" method="POST">
+    <label for="title">Product title:</label>
+    <input type="text" id="title" name="title"><br />
 
-    <label for="price">Price:</label>
-    <input type="number" name="price" required><br>
+    <label for="description">Product description:</label>
+    <input type="text" id="description" name="description"><br />
 
-    <button type="submit">Create</button>
+    <label for="price">Product price:</label>
+    <input type="number" id="price" name="price"><br />
+
+    <label for="stock">Product stock:</label>
+    <input type="number" id="stock" name="stock"><br />
+
+    <label for="code">Product code:</label>
+    <input type="text" id="code" name="code"><br />
+
+    <button type="submit">Add Product</button>
+</form>
+<br />
+
+<form id="delete-form" method="DELETE">
+    <label for="id">Product id:</label>
+    <input type="number" id="id" name="id"><br />
+    <button type="submit">Delete Product</button>
 </form>
 
+<br />
+
+<div id="error-message"></div>
+
 <script src="/socket.io/socket.io.js"></script>
-<script src="../public/js/index.js"></script>
+<script>
+    const socket = io();
+
+    
+    const productForm = document.getElementById("product-form");
+    productForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const price = document.getElementById("price").value;
+        const stock = document.getElementById("stock").value;
+        const code = document.getElementById("code").value;
+
+       
+        if (!title || !description || !price || !stock || !code) {
+            const errorMessage = document.getElementById("error-message");
+            errorMessage.innerHTML = "Please fill in all fields.";
+            return;
+        }
+
+       
+        socket.emit("createProduct", { title, description, price, stock, code });
+        productForm.reset();
+    });
+
+    // handle form submission for deleting a product
+    const deleteForm = document.getElementById("delete-form");
+    deleteForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const id = document.getElementById("id").value;
+        socket.emit("deleteProduct", id);
+        deleteForm.reset();
+    });
+
+  // handle receiving product data from server
+
+
+</script>
